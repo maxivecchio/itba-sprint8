@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel Principal</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 min-h-screen flex items-center justify-center">
+    <div class="bg-white shadow-md rounded-lg max-w-xl w-full p-6">
+        <h1 class="text-2xl font-bold text-gray-800 text-center mb-4">Hola, {{ user.username }}</h1>
+        <p class="text-gray-600 text-center mb-6">Accede rápidamente a las opciones disponibles.</p>
+        <div class="grid gap-4">
+            <a href="{% url 'crear_cuenta' %}" class="block bg-blue-500 text-white text-center py-2 rounded-lg hover:bg-blue-600">
+                Nueva Cuenta
+            </a>
+            <a href="{% url 'create_card' %}" class="block bg-blue-500 text-white text-center py-2 rounded-lg hover:bg-blue-600">
+                Crear Tarjeta
+            </a>
+            <a href="{% url 'detalle' %}" class="block bg-gray-200 text-gray-800 text-center py-2 rounded-lg hover:bg-gray-300">
+                Ver Perfil
+            </a>
+            <a href="{% url 'list_accounts' %}" class="block bg-gray-200 text-gray-800 text-center py-2 rounded-lg hover:bg-gray-300">
+                Mis Cuentas
+            </a>
+            <a href="{% url 'client_cards' %}" class="block bg-gray-200 text-gray-800 text-center py-2 rounded-lg hover:bg-gray-300">
+                Mis Tarjetas
+            </a>
+            <form action="{% url 'logout' %}" method="post" class="block">
+                {% csrf_token %}
+                <button type="submit" class="w-full bg-red-500 text-white py-2 rounded-lg hover:bg-red-600">
+                    Salir
+                </button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

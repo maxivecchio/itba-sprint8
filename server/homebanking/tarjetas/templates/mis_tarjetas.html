@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mis Tarjetas</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 min-h-screen flex flex-col items-center py-8">
+    <div class="bg-white shadow-lg rounded-lg max-w-4xl w-full p-6">
+        <h2 class="text-2xl font-bold text-gray-800 text-center mb-2">Tus Tarjetas</h2>
+        <p class="text-gray-600 text-center mb-6">Estas son las tarjetas registradas en tu cuenta.</p>
+        <div class="overflow-x-auto">
+            <table class="w-full border-collapse border border-gray-300">
+                <thead class="bg-gray-200">
+                    <tr>
+                        <th class="border border-gray-300 px-4 py-2 text-left">ID</th>
+                        <th class="border border-gray-300 px-4 py-2 text-left">Marca</th>
+                        <th class="border border-gray-300 px-4 py-2 text-left">Tipo</th>
+                        <th class="border border-gray-300 px-4 py-2 text-left">Vencimiento</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for tarjeta in tarjetas %}
+                        <tr class="hover:bg-gray-100">
+                            <td class="border border-gray-300 px-4 py-2">{{ tarjeta.id_tarjeta }}</td>
+                            <td class="border border-gray-300 px-4 py-2">{{ tarjeta.marca.nombre }}</td>
+                            <td class="border border-gray-300 px-4 py-2">{{ tarjeta.tipo }}</td>
+                            <td class="border border-gray-300 px-4 py-2">{{ tarjeta.fecha_expiracion }}</td>
+                        </tr>
+                    {% empty %}
+                        <tr>
+                            <td colspan="4" class="border border-gray-300 px-4 py-2 text-center text-gray-600">
+                                No tenés tarjetas asociadas.
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>

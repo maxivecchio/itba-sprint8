@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cuentas del Cliente</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 min-h-screen flex flex-col items-center py-8">
+    <div class="w-full max-w-4xl bg-white shadow-lg rounded-lg p-6">
+        <h2 class="text-2xl font-semibold text-gray-800 text-center mb-2">Cuentas de {{ user.username }}</h2>
+        <p class="text-gray-600 text-center mb-6">Aquí están las cuentas asociadas a tu perfil.</p>
+
+        <div class="overflow-x-auto">
+            <table class="w-full border-collapse border border-gray-300">
+                <thead class="bg-gray-200">
+                    <tr>
+                        <th class="border border-gray-300 px-4 py-2 text-left text-gray-700">ID Cuenta</th>
+                        <th class="border border-gray-300 px-4 py-2 text-left text-gray-700">Tipo de Cuenta</th>
+                        <th class="border border-gray-300 px-4 py-2 text-left text-gray-700">Saldo</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for account in accounts %}
+                        <tr class="hover:bg-gray-100">
+                            <td class="border border-gray-300 px-4 py-2">{{ account.customer_account_id }}</td>
+                            <td class="border border-gray-300 px-4 py-2">{{ account.fk_customer_account_account_type.account_type_name }}</td>
+                            <td class="border border-gray-300 px-4 py-2">${{ account.customer_account_balance }}</td>
+                        </tr>
+                    {% empty %}
+                        <tr>
+                            <td colspan="3" class="border border-gray-300 px-4 py-2 text-center text-gray-600">
+                                No tenés cuentas asociadas.
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>
