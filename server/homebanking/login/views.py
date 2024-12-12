@@ -6,6 +6,7 @@ from django.contrib.auth import authenticate
 from rest_framework.authtoken.models import Token
 from .serializers import RegistroSerializer
 from rest_framework.permissions import IsAuthenticated
+from clientes.models import Cliente
 
 class LoginView(APIView):
     def post(self, request, *args, **kwargs):
@@ -29,14 +30,19 @@ class RegistroView(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
 class UserDetailView(APIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated] 
 
     def get(self, request):
-        user = request.user
-        return Response({
-            "id": user.id,
-            "username": user.username,
-            "email": user.email,
-            "first_name": user.first_name,
-            "last_name": user.last_name,
-        })
+        try:
+            cliente = Cliente.objects.get(usuario=request.user)
+            return Response({
+                "id": cliente.id_cliente,
+                "dni": cliente.dni,
+                "nombre": cliente.nombre,
+                "apellido": cliente.apellido,
+                "fecha_nacimiento": cliente.fecha_nacimiento,
+                "email": request.user.email, 
+                "username": request.user.username, 
+            })
+        except Cliente.DoesNotExist:
+            return Response({"error": "Cliente no encontrado"}, status=404)

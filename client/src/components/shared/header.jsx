@@ -38,13 +38,13 @@ const Header = ({toggleSidebar}) => {
             </div>
             <DropdownMenu>
                 {
-                    user && user.first_name && user.last_name ?
+                    user && user.nombre && user.apellido ?
                         <DropdownMenuTrigger
                             className={`${buttonVariants({
                                 variant: "outline",
                             })} bg-transparent`}
                         >
-                            <FaUser/><span className="ml-2">{user?.first_name} {user?.last_name}</span>
+                            <FaUser/><span className="ml-2">{user?.nombre} {user?.apellido}</span>
                         </DropdownMenuTrigger>
                         :
                         <Skeleton className={"w-40 h-10"} />
