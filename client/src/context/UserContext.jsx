@@ -14,12 +14,21 @@ export const UserProvider = ({children}) => {
     useEffect(() => {
         const fetchUser = async () => {
             try {
-                const res = await axios.get("/api/session");
-                if (res.status === 200) {
-                    setUser(res.data.user);
+                const token = Cookies.get("token");
+                if (token) {
+                    console.log({token})
+                    const res = await axios.get("http://localhost:8000/api/auth/user/", {
+                        headers: {
+                            Authorization: `Token ${token}`,
+                        },
+                    });
+                    if (res.status === 200) {
+                        console.log({data: res.data})
+                        setUser(res.data);
+                    }
                 }
             } catch (error) {
-                console.error("Error fetching session:", error);
+                console.error("Error fetching user data:", error);
             }
         };
 
@@ -28,14 +37,28 @@ export const UserProvider = ({children}) => {
 
     const login = async (username, password) => {
         try {
-            const res = await axios.post("/api/login", {username, password});
+            const res = await axios.post("http://localhost:8000/api/auth/login/", {
+                username,
+                password,
+            });
 
             if (res.status === 200) {
-                const userData = res.data;
-                toast.success("Sesión iniciada correctamente.");
-                setUser(userData.user);
-                Cookies.set("user", JSON.stringify(userData.user), {expires: 7});
-                return true;
+                const token = res.data.token;
+
+                Cookies.set("token", token, { expires: 7 });
+
+                const userRes = await axios.get("http://localhost:8000/api/auth/user/", {
+                    headers: {
+                        Authorization: `Token ${token}`,
+                    },
+                });
+
+                if (userRes.status === 200) {
+                    setUser(userRes.data);
+                    Cookies.set("user", JSON.stringify(userRes.data), { expires: 7 });
+                    toast.success("Sesión iniciada correctamente.");
+                    return true;
+                }
             }
         } catch (err) {
             const errorMessage = err.response?.data?.message || "Usuario o contraseña incorrectos";

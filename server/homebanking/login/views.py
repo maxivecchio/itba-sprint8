@@ -4,8 +4,8 @@ from rest_framework.response import Response
 from rest_framework import status
 from django.contrib.auth import authenticate
 from rest_framework.authtoken.models import Token
-
 from .serializers import RegistroSerializer
+from rest_framework.permissions import IsAuthenticated
 
 class LoginView(APIView):
     def post(self, request, *args, **kwargs):
@@ -27,3 +27,16 @@ class RegistroView(APIView):
             serializer.save()
             return Response({"message": "Usuario registrado con éxito"}, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+class UserDetailView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        user = request.user
+        return Response({
+            "id": user.id,
+            "username": user.username,
+            "email": user.email,
+            "first_name": user.first_name,
+            "last_name": user.last_name,
+        })

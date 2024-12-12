@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 
 export function middleware(req) {
   const { cookies } = req;
-  const user = cookies.get('user');
+  const user = cookies.get('token');
   const url = req.nextUrl.clone();
 
   if (user && url.pathname === '/login') {
