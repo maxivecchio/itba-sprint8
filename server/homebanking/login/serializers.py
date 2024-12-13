@@ -3,7 +3,6 @@ from rest_framework import serializers
 from clientes.models import TipoCliente, Cliente
 from django.contrib.auth.models import User
 from tarjetas.models import Tarjeta, MarcaTarjeta
-from cuentas.models import TipoCuenta, CuentaCliente
 
 def generar_numero_tarjeta():
     return ''.join([str(random.randint(0, 9)) for _ in range(16)])
@@ -65,33 +64,6 @@ class RegistroSerializer(serializers.ModelSerializer):
             print(f"Tarjeta de débito creada para el cliente {cliente}.")
         else:
             print("Error: No se encontró ninguna MarcaTarjeta.")
-
-        # Crear cuentas por tipo de cliente
-        cuentas_por_tipo = {
-            "Classic": ["Caja de ahorro (ARS)"],
-            "Gold": ["Caja de ahorro (ARS)", "Caja de ahorro (USD)"],
-            "Black": ["Caja de ahorro (ARS)", "Caja de ahorro (USD)", "Cuenta corriente (ARS)"],
-        }
-
-        tipos_cuentas = cuentas_por_tipo.get(tipo_cliente.nombre, [])
-        print(f"Cuentas a crear para el tipo_cliente {tipo_cliente.nombre}: {tipos_cuentas}")
-
-        for tipo_cuenta_nombre in tipos_cuentas:
-            moneda = tipo_cuenta_nombre.split(" (")[1][:-1]  # Extraer moneda (ARS, USD)
-            tipo_cuenta = TipoCuenta.objects.filter(
-                nombre_tipo_cuenta=tipo_cuenta_nombre.split(" (")[0],
-                moneda=moneda
-            ).first()
-
-            if tipo_cuenta:
-                CuentaCliente.objects.create(
-                    saldo=0,
-                    cliente=cliente,
-                    tipo_cuenta=tipo_cuenta,
-                )
-                print(f"CuentaCliente creada: {tipo_cuenta_nombre} con moneda {moneda} para el cliente {cliente}.")
-            else:
-                print(f"Error: TipoCuenta {tipo_cuenta_nombre} no encontrada.")
 
         print(f"Registro finalizado para el usuario {user.username}.")
         return user
