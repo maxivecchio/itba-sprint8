@@ -8,5 +8,5 @@ router.register(r'cuentas-clientes', CuentaClienteViewSet)
 
 urlpatterns = [
     *router.urls, 
-    path('cuentas/', CuentaClienteView.as_view(), name='cuentas_cliente'),
+    path('token/', CuentaClienteView.as_view(), name='cuentas_cliente'),
 ]

@@ -1,6 +1,8 @@
 import Link from "next/link";
 import { Component as GastosAnual } from "@/components/shared/bar-chart";
 import { Component as GraficoGastos } from "@/components/shared/radial-chart";
+import BalanceList from "@/components/home/balance-list";
+import TarjetasList from "@/components/home/tarjetas-list";
 
 export default function Home() {
   return (
@@ -10,16 +12,16 @@ export default function Home() {
         <main className="grid grid-cols-4 xl:grid-cols-5 gap-4 container mx-auto sm:p-4 bg-gray-100 rounded-xl">
           <section className="col-span-4 md:col-span-2 xl:col-span-1">
             <Link href="/cuentas">
-              <div className="bg-white p-4 shadow h-full rounded-xl max-w-4xl">
-                <h2 className="text-s font-semibold mb-1">Mi balance</h2>
-                <span className="text-2xl font-bold text-primary">
-                  $43.521,08
-                </span>
-              </div>
+              <BalanceList/>
             </Link>
           </section>
 
           <section className="col-span-4 md:col-span-2 h-full bg-white p-4 shadow rounded-xl">
+            <Link href="/tarjetas">
+              <TarjetasList/>
+            </Link>
+          </section>
+          {/*<section className="col-span-4 md:col-span-2 h-full bg-white p-4 shadow rounded-xl">
             <Link href="/tarjetas">
               <div className="bg-gray-100 p-4 rounded shadow">
                 <div>Tarjeta VISA</div>
@@ -30,7 +32,7 @@ export default function Home() {
                 <div className="font-mono">**** **** **** 8321</div>
               </div>
             </Link>
-          </section>
+          </section>*/}
 
           <section className="col-span-4 xl:col-span-2">
             <Link href="/transferencias">

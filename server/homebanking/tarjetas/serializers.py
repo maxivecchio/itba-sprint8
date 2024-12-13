@@ -8,6 +8,8 @@ class MarcaTarjetaSerializer(serializers.ModelSerializer):
 
 
 class TarjetaSerializer(serializers.ModelSerializer):
+    marca = serializers.CharField(source='marca.nombre')  # Popula el nombre de la marca
+
     class Meta:
         model = Tarjeta
-        fields = '__all__'
+        fields = ['id_tarjeta', 'numero', 'fecha_otorgamiento', 'fecha_expiracion', 'tipo', 'marca']

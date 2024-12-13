@@ -3,6 +3,7 @@ from rest_framework import serializers
 from clientes.models import TipoCliente, Cliente
 from django.contrib.auth.models import User
 from tarjetas.models import Tarjeta, MarcaTarjeta
+from datetime import datetime, timedelta
 
 def generar_numero_tarjeta():
     return ''.join([str(random.randint(0, 9)) for _ in range(16)])
@@ -60,6 +61,8 @@ class RegistroSerializer(serializers.ModelSerializer):
                 tipo="Débito",
                 cliente=cliente,
                 marca=marca_tarjeta,
+                fecha_otorgamiento=datetime.now().date(),
+                fecha_expiracion=(datetime.now() + timedelta(days=365 * 3)).date() 
             )
             print(f"Tarjeta de débito creada para el cliente {cliente}.")
         else:
