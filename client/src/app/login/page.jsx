@@ -40,12 +40,12 @@ function LoginForm() {
                     <form onSubmit={handleLogin} className="gap-y-4">
                         <div className={"text-white opacity-60 p-2 bg-white/20 rounded-lg mt-2"}>
                             <span className="font-semibold">Credenciales de prueba:</span> <br/>
-                            <div className={"flex flex-col sm:flex-row sm:gap-4"}>
+                            <div className={"flex flex-col sm:flex-row sm:gap-2"}>
                             <span>
-              User: juliana.martinez
+              User: usuario
               </span>
                                 <span>
-              Passowrd: Password123
+              Passowrd: contra123
                 </span>
                             </div>
                         </div>

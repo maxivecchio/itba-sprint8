@@ -5,10 +5,13 @@ from sucursales.models import Sucursal
 # Modelos
 class TipoCliente(models.Model):
     id_tipo_cliente = models.AutoField(primary_key=True)
-    nombre_tipo_cliente = models.CharField(max_length=50)
-    cantidad_tarjetas = models.IntegerField()
+    nombre = models.CharField(max_length=50)
+    cantidad_tarjetas_debito = models.IntegerField()
+    cantidad_tarjetas_credito = models.IntegerField(null=True, blank=True)
     limite_retiro = models.IntegerField()
+    limite_negativo = models.IntegerField(default=0)
     tarifa = models.FloatField()
+    
 
     class Meta:
         db_table = 'TipoCliente'
@@ -16,7 +19,7 @@ class TipoCliente(models.Model):
         verbose_name_plural = 'Tipos de Cliente'
 
     def __str__(self):
-        return self.nombre_tipo_cliente
+        return self.nombre
 
 
 from django.db import models
@@ -30,6 +33,8 @@ class Cliente(models.Model):
     fecha_nacimiento = models.DateField()
     usuario = models.OneToOneField(User, on_delete=models.CASCADE, related_name="cliente", default=None)
     sucursal = models.ForeignKey(Sucursal, on_delete=models.CASCADE, null=True, blank=True) 
+    tipo_cliente = models.ForeignKey(TipoCliente, on_delete=models.PROTECT, related_name="clientes")
+
     """direccion = models.ForeignKey('sucursales.Direccion', on_delete=models.CASCADE) """
 
     class Meta:

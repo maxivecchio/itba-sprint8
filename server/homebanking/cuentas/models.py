@@ -13,7 +13,7 @@ class TipoCuenta(models.Model):
         verbose_name_plural = 'Tipos de Cuenta'
 
     def __str__(self):
-        return self.nombre_tipo_cuenta
+        return f"{self.nombre} ({self.moneda})"
 
 
 class CuentaCliente(models.Model):
