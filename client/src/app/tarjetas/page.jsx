@@ -1,12 +1,28 @@
 "use client";
-
-import {useTarjetas} from "@/lib/hooks/useTarjetas";
-import Link from "next/link";
 import {Card, CardHeader, CardTitle, CardContent} from "@/components/ui/card";
-import {buttonVariants} from "@/components/ui/button"; // Asegúrate de tener esta función disponible
+import {useEffect, useState} from "react";
+import Cookies from "js-cookie";
+import axios from "axios";
 
 const TarjetasPage = () => {
-    const [tarjetas] = useTarjetas();
+    const [tarjetas, setTarjetas] = useState([])
+
+    useEffect(() => {
+        const token = Cookies.get("token");
+        console.log({token})
+        axios.get('http://localhost:8000/api/tarjetas/token/', {
+            headers: {
+                Authorization: `Token ${token}`,
+                'Content-Type': 'application/json'
+            }
+        }).then((response) => {
+            console.log({DATA_CUENTA: response.data})
+            setTarjetas(response.data);
+        }).catch((error) => {
+            console.log(error);
+        });
+    }, []);
+
 
     return (
         <div className="container mx-auto p-6">
@@ -16,17 +32,11 @@ const TarjetasPage = () => {
                     <li key={tarjeta.id}>
                         <Card className="shadow-lg">
                             <CardHeader>
-                                <CardTitle className="text-xl font-semibold">{tarjeta.nombre}</CardTitle>
+                                <CardTitle className="text-xl font-semibold">{tarjeta.marca} {tarjeta.tipo}</CardTitle>
                             </CardHeader>
                             <CardContent>
-                                <p>Límite: ${tarjeta.limite}</p>
-                                <p>Deuda: ${tarjeta.deuda}</p>
-                                <Link
-                                    href={`/tarjetas/${tarjeta.id}`}
-                                    className={`${buttonVariants({variant: "outline"})} mt-4`}
-                                >
-                                    Ver detalles
-                                </Link>
+                                <div className="font-mono">**** **** **** {tarjeta.numero}</div>
+                                Exp. {new Date(tarjeta.fecha_expiracion).toLocaleDateString('en-US', { month: '2-digit', year: '2-digit' })}
                             </CardContent>
                         </Card>
                     </li>

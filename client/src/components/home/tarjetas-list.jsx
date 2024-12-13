@@ -18,26 +18,7 @@ const TarjetasList = () => {
             }
         }).then((response) => {
             console.log({DATA_CUENTA: response.data})
-            setTarjetas([
-                {
-                    "id_tarjeta": 1,
-                    "numero": "7998",
-                    "cvv": 458,
-                    "fecha_otorgamiento": "2024-12-13",
-                    "fecha_expiracion": "2027-12-13",
-                    "tipo": "Débito",
-                    "marca": "Visa"
-                },
-                {
-                    "id_tarjeta": 1,
-                    "numero": "7998",
-                    "cvv": 458,
-                    "fecha_otorgamiento": "2024-12-13",
-                    "fecha_expiracion": "2027-12-13",
-                    "tipo": "Débito",
-                    "marca": "Visa"
-                }
-            ]);
+            setTarjetas(response.data);
         }).catch((error) => {
             console.log(error);
         });
